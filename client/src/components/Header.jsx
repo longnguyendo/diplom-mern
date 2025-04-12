@@ -30,7 +30,7 @@ const Header = () => {
         <Button className='hidden w-12 h-10 sm:inline' color='gray' pill>
           <FaMoon />
         </Button>
-        <Link to='/sign-in'>
+        <Link to='/signin'>
           <Button className='text-white bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 hover:bg-gradient-to-br focus:ring-teal-300 dark:focus:ring-teal-800 ' pill>
             Sign In
           </Button>
