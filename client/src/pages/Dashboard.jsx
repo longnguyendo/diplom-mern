@@ -20,9 +20,12 @@ const Dashboard = () => {
         {/* sidebar */}
         <DashSidebar />
       </div>
-      
-        {/* profile ... */}
-        {tab ==='profile'&& <DashProfile />}
+    
+      {/* profile ... */}
+      {tab ==='profile'&& <DashProfile />}
+      <div>
+        DashboardPosts
+      </div>
     </div>
   )
 }

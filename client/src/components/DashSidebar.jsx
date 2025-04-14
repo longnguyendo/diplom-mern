@@ -1,6 +1,6 @@
 import { Sidebar, SidebarItem, SidebarItemGroup, SidebarItems } from 'flowbite-react'
 import { useEffect, useState } from 'react';
-import { HiArrowSmRight, HiUser } from 'react-icons/hi'
+import { HiArrowSmRight, HiBookmark, HiBookOpen, HiSparkles, HiUser } from 'react-icons/hi'
 import { Link, useLocation } from 'react-router-dom';
 
 const DashSidebar = () => {
@@ -25,6 +25,24 @@ const DashSidebar = () => {
                         Profile
                     </SidebarItem>
                 </Link>
+
+                <Link to ='/dashboard?tab=posts'>
+                    <SidebarItem active={tab==='posts'} 
+                    icon={HiBookOpen} labelColor='dark'
+                    className={tab === 'posts' ? 'bg-teal-400 text-gray' : ''}
+                    >
+                        Posts
+                    </SidebarItem>
+                </Link>
+                <Link to ='/dashboard?tab=comments'>
+                    <SidebarItem active={tab==='comments'} 
+                    icon={HiSparkles} labelColor='dark'
+                    className={tab === 'comments' ? 'bg-teal-400 text-gray' : ''}
+                    >
+                        Comments
+                    </SidebarItem>
+                </Link>
+
                 <SidebarItem icon={HiArrowSmRight} className='cursor-pointer'>
                     Signout
                 </SidebarItem>
