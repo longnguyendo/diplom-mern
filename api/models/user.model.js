@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     profilePicture: {
         type: String,
         default: 'https://icons.veryicon.com/png/o/miscellaneous/rookie-official-icon-gallery/225-default-avatar.png',
-    }
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false,
+    },
 }, {timestamps: true})
 
 const User = mongoose.model('User', userSchema);
