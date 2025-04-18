@@ -10,7 +10,6 @@ router.get('/update', (req, res) => {
 });
 
 router.put('/update/:userId', verifyToken, updateUser);
-router.get('/update/:userId', test)
 router.delete('/delete/:userId', verifyToken, deleteUser);
 
 
