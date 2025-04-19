@@ -27,9 +27,10 @@ import {
 } from "../redux/user/userSlice";
 import { useDispatch } from "react-redux";
 import { HiOutlineExclamationCircle } from "react-icons/hi";
+import { Link } from "react-router-dom";
 
 const DashProfile = () => {
-  const { currentUser, error } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user);
 
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -40,6 +41,7 @@ const DashProfile = () => {
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
+
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const handleImageChange = (e) => {
@@ -209,9 +211,18 @@ const DashProfile = () => {
           placeholder="password"
           onChange={handleChange}
         />
-        <Button type="submit" outline>
-          Update
+        <Button type="submit" outline disabled={loading || imageFileUploading}>
+          {loading ? 'Loading ...' : 'Update'}
         </Button>
+        {
+          currentUser.isAdmin && (
+            <Link to={`/create-post`}>
+              <Button type='button' className="w-full">
+                Create a post
+              </Button>
+            </Link>
+          )
+        }
       </form>
       <div className="flex justify-between mt-5 text-red-500">
         <span onClick={() => setShowModal(true)} className="cursor-pointer">
@@ -246,7 +257,7 @@ const DashProfile = () => {
           <div className="text-center">
             <HiOutlineExclamationCircle className="mx-auto mb-4 text-gray-400 h-14 w-14 dark:text-gray-200" />
             <h3 className="mb-5 text-lg text-gray-500 dark:text-gray-400">
-              {" "}
+              
               Are you sure want to delete your account
             </h3>
           </div>
@@ -255,7 +266,7 @@ const DashProfile = () => {
               Yes, i'm sure
             </Button>
             <Button color="gray" onClick={() => setShowModal(false)}>
-              No, cancel it{" "}
+              No, cancel it
             </Button>
           </div>
         </ModalBody>
