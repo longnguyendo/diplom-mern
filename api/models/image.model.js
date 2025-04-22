@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
 const imageSchema = new mongoose.Schema({
+
   url: {
     type: String,
     required: true,
   },
+  alt: {
+    type: String, 
+  }
 });
 
-const ImageModel = mongoose.model('ImageModel', imageSchema);
+const Image = mongoose.model('Image', imageSchema);
 
-export default ImageModel;
+export default Image;

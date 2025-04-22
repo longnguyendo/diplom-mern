@@ -9,3 +9,12 @@ body {
 .ql-editor {
     font-size: 1.05rem;
 }
+
+.ql-container {
+    border: none !important;
+}
+
+.ql-toolbar {
+    border: none !important;
+}
+  

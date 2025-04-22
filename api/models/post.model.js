@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+// import Image from "./image.model.js";
 
 const postSchema = new mongoose.Schema({
     userId: {
@@ -27,6 +28,8 @@ const postSchema = new mongoose.Schema({
         require: true,
         unique: true,
     },
+    // images: [{ type: mongoose.Schema.Types.ObjectId, ref: Image }],
+
 
 }, {timestamps: true})
 
