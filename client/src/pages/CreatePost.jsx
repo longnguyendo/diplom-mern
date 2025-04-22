@@ -19,9 +19,8 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
 
-  const onChange = (e) => {
-    console.log(e);
-  };
+  console.log(formData);
+
   const navigate = useNavigate();
 
   const handleUpdloadImage = async () => {
@@ -60,11 +59,35 @@ const CreatePost = () => {
       console.log(error);
     }
   };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
+      }
+
+      if (res.ok) {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`);
+      }
+    } catch (error) {
+      setPublishError("Something went wrong");
+    }
+  };
 
   return (
     <div className="max-w-3xl min-h-screen p-3 mx-auto">
       <h1 className="text-3xl font-semibold text-center my-7">Create a post</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col justify-between gap-4 sm:flex-row">
           <TextInput
             type="text"
@@ -72,8 +95,15 @@ const CreatePost = () => {
             required
             id="title"
             className="flex-1"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-          <Select>
+          <Select
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
             <option value="uncategorized">Select a category</option>
             <option value="javascript">Javascript</option>
             <option value="reactjs">ReactJs</option>
@@ -87,17 +117,22 @@ const CreatePost = () => {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <Button type="button" size="sm" outline onClick={handleUpdloadImage}>
-            { imageUploadProgress ? 
-            <div className="w-16 h-16">
-              <CircularProgressbar value={imageUploadProgress} text={`${imageUploadProgress || 0}%`}/>
-            </div> : 'Upload image'}
+            {imageUploadProgress ? (
+              <div className="w-16 h-16">
+                <CircularProgressbar
+                  value={imageUploadProgress}
+                  text={`${imageUploadProgress || 0}%`}
+                />
+              </div>
+            ) : (
+              "Upload image"
+            )}
           </Button>
         </div>
-        {imageUploadError && (
-          <Alert color="failure"> {imageUploadError}</Alert> 
-        )}
+        {imageUploadError && <Alert color="failure"> {imageUploadError}</Alert>}
         {formData.image && (
-          <img src={formData.image}
+          <img
+            src={formData.image}
             alt="upload"
             className="object-cover w-full h-72"
           />
@@ -112,6 +147,12 @@ const CreatePost = () => {
           }}
         />
         <Button type="submit">Publish</Button>
+
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );

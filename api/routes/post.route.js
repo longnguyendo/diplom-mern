@@ -4,7 +4,7 @@ import { create } from '../controllers/post.controller.js';
 
 const router = express.Router();
 
-router.get('/post', (req, res) => {
+router.get('/create', (req, res) => {
   res.json({ message: "API is working" });
 });
 

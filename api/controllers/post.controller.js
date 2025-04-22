@@ -11,8 +11,8 @@ export const create = async( req, res , next) =>  {
     if (!req.body.title || !req.body.content) {
         return next(errorHandler(400, 'please provide all required fields'))
     }
-    console.log(req.body.title);
-    const slug = req.body.title.split('').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '-');
+    // console.log(req.body.title);
+    const slug = req.body.title.split(' ').join('-').toLowerCase().replace(/[^a-zA-Z0-9-]/g, '');
 
     const newPost = new Post({
         ...req.body,
@@ -26,3 +26,4 @@ export const create = async( req, res , next) =>  {
         next(err);
     }
 }
+ 
