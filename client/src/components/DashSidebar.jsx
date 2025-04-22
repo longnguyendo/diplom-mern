@@ -14,12 +14,16 @@ import {
 } from "react-icons/hi";
 import { Link, useLocation } from "react-router-dom";
 import { signoutSuccess } from "../redux/user/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const DashSidebar = () => {
+
   const location = useLocation();
+  const { currentUser } = useSelector((state) => state.user);
+  console.log(currentUser);
   const dispatch = useDispatch();
   const [tab, setTab] = useState("");
+
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromURL = urlParams.get("tab");
@@ -47,12 +51,12 @@ const DashSidebar = () => {
   return (
     <Sidebar className="w-full md:w-56">
       <SidebarItems>
-        <SidebarItemGroup>
+        <SidebarItemGroup className="flex flex-col gap-1">
           <Link to="/dashboard?tab=profile">
             <SidebarItem
               active={tab === "profile"}
               icon={HiUser}
-              label={"User"}
+              label={currentUser.isAdmin ? 'Admin' : 'User'}
               labelColor="dark"
               className={tab === "profile" ? "bg-teal-400 text-gray" : ""}
               as='div'
