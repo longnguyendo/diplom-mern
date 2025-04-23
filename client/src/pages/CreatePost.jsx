@@ -19,7 +19,7 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
 
-  console.log(formData);
+  // console.log(formData);
 
   const navigate = useNavigate();
 
