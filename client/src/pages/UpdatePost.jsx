@@ -19,7 +19,8 @@ import {
     const [imageUploadError, setImageUploadError] = useState(null);
     const [formData, setFormData] = useState({});
     const [publishError, setPublishError] = useState(null);
-
+    console.log('formdata',formData);
+    
     const {postId } = useParams();
     const navigate = useNavigate();
     const { currentUser } = useSelector((state) => state.user);
@@ -84,13 +85,13 @@ import {
     };
 
     const handleSubmit = async (e) => {
-
+      // console.log("ID", formData)
       e.preventDefault();
       try {
-        const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+        const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
             method: 'PUT',
             headers: {
-            'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(formData),
         });

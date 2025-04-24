@@ -1,0 +1,67 @@
+import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { Button, Spinner } from 'flowbite-react';
+
+const PostPage = () => {
+
+    const { postSlug } = useParams();
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
+    const [post, setPost] = useState(null);
+    const [recentPosts, setREcentPosts] = useState(null);
+    console.log(postSlug);
+    console.log(post);
+    
+
+    useEffect(() => {
+        const fetchPost= async() => {
+            try {
+                setLoading(true);
+                const res = await fetch(`/api/post/getposts?slug=${postSlug}`)
+                const data = await res.json();
+                if (res.ok) {
+                    setLoading(false);
+                    setError(false);
+                    setPost(data.posts[0]);
+                }
+                if (!res.ok) {
+                    setLoading(false);
+                    setError(true);
+                    return;
+                }
+
+            } catch (err) {
+                console.log(err);
+                setLoading(false);
+            }
+        }
+        fetchPost();
+    },[postSlug]);
+
+    if (loading) return (<div className='flex items-center justify-center min-h-screen'>
+        <Spinner size='xl'/>
+    </div>);
+    return (
+        <main className='flex flex-col max-w-6xl min-h-screen p-3 mx-auto'>
+            <h1 className='max-w-2xl p-3 mx-auto mt-10 font-serif text-3xl text-center lg:text-4xl'> {post && post.title} </h1>
+        
+            <Link className='self-center mt-5' to={`/search?category=${post && post.category}`}>
+                <Button color='gray' pill size='xs'>{post && post.category}</Button>
+            </Link>
+
+            <img src={post && post.image} alt={post && post.title} className='mt-10 p-3 max-h-[600px] w-full object-cover'/>
+           
+            <div className='flex justify-between w-full max-w-2xl p-3 mx-auto text-xs border-b border-slate-500'>
+                <span>{post && new Date(post.createdAt).toLocaleDateString()}</span>
+                <span className='italic'>{post && (post.content.length/1000).toFixed(0)} min read</span>
+            </div>
+
+            <div
+                className='w-full max-w-2xl p-3 mx-auto post-content'
+                dangerouslySetInnerHTML={{ __html: post && post.content }}
+            ></div>
+        </main>
+    )
+}
+
+export default PostPage

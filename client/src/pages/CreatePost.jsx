@@ -19,7 +19,7 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
 
-  // console.log(formData);
+  console.log(formData);
 
   const navigate = useNavigate();
 
@@ -77,7 +77,7 @@ const CreatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/create-post`);
+        navigate(`/post/${data.slug}`);
       }
     } catch (error) {
       setPublishError("Something went wrong");
