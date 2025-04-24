@@ -22,11 +22,11 @@ export default function FooterCom() {
               <FooterTitle title='About' />
               <FooterLinkGroup col>
                 <FooterLink
-                  href=''
+                  href='/'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
-                   JS Projects
+                  Our Course
                 </FooterLink>
                 <FooterLink
                   href='/about'
@@ -41,7 +41,7 @@ export default function FooterCom() {
               <FooterTitle title='Follow us' />
               <FooterLinkGroup col>
                 <FooterLink
-                  href='https://www.github.com/sahandghavidel'
+                  href='https://www.github.com/longnguyendo'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -70,7 +70,7 @@ export default function FooterCom() {
             <FooterIcon href='#' icon={BsFacebook}/>
             <FooterIcon href='#' icon={BsInstagram}/>
             <FooterIcon href='#' icon={BsTwitter}/>
-            <FooterIcon href='https://github.com/sahandghavidel' icon={BsGithub}/>
+            <FooterIcon href='https://github.com/longnguyendo' icon={BsGithub}/>
             <FooterIcon href='#' icon={BsDribbble}/>
 
           </div>
