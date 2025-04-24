@@ -77,7 +77,7 @@ const CreatePost = () => {
 
       if (res.ok) {
         setPublishError(null);
-        navigate(`/post/${data.slug}`);
+        navigate(`/create-post`);
       }
     } catch (error) {
       setPublishError("Something went wrong");

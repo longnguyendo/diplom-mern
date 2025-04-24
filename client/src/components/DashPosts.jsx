@@ -46,7 +46,8 @@ const DashPosts = () => {
   const handleShowMore = async () => {
 
     const page = Math.floor(userPosts.length / 9);
-    // console.log("startindex " , startIndex);
+    const startIndex = userPosts.length;
+    console.log(userPosts);
     try {
       const res = await fetch(
         `/api/post/getposts?userId=${currentUser._id}&page=${page}&limit=9`
@@ -160,7 +161,7 @@ const DashPosts = () => {
           )}
         </>
       ) : (
-        <p>You have no posts yet!</p>
+        <p>Loading ...</p>
       )}
        <Modal
         show={showModal}

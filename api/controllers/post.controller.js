@@ -31,11 +31,14 @@ export const getposts = async (req, res, next) => {
 
     try {
       const page = parseInt(req.query.page) || 0;
+      const startIndex = parseInt(req.query.startIndex) || 0;
       const limit = parseInt(req.query.limit) || 9;
       const sortDirection = req.query.order === 'asc' ? 1 : -1;
+      // console.log(startIndex, limit);
+      
       const skip = page * limit;
 
-      const posts = await Post.find({
+      const query = {
         ...(req.query.userId && { userId: req.query.userId }),
         ...(req.query.category && { category: req.query.category }),
         ...(req.query.slug && { slug: req.query.slug }),
@@ -46,7 +49,11 @@ export const getposts = async (req, res, next) => {
             { content: { $regex: req.query.searchTerm, $options: 'i' } },
           ],
         }),
-      })
+      };
+
+      // console.log("Query:", req.query);
+
+      const posts = await Post.find(query)
         .sort({ updatedAt: sortDirection })
         .skip(skip)
         .limit(limit);

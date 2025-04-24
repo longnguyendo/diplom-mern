@@ -80,7 +80,7 @@ export const getUsers = async (req, res, next) => {
     const user = parseInt(req.query.user) || 0;
     const limit = parseInt(req.query.limit) || 9;
     const sortDirection = req.query.sort === 'asc' ? 1 : -1;
-    const skip = user*limit;
+    const skip = user * limit;
 
     const users = await User.find()
       .sort({ createdAt: sortDirection })
