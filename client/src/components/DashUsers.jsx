@@ -23,6 +23,8 @@ const DashUsers = () => {
   const [showModal, setShowModal] = useState(false);
   const [userIdToDelete, setUserIdToDelete] = useState('');
 
+  // question for you Why use useEffect in this situation
+  // useEffect use for what purpose?
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -67,6 +69,7 @@ const DashUsers = () => {
     }
   };
 
+  // I forget commit delete user handle fn and backend
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
@@ -165,7 +168,7 @@ const DashUsers = () => {
             Are you sure you want to delete this user?
           </h3>
           <div className='flex justify-center gap-4'>
-            <Button color='failure' onClick={handleDeleteUser}>
+            <Button color='red' onClick={handleDeleteUser}>
               Yes, I'm sure
             </Button>
             <Button color='gray' onClick={() => setShowModal(false)}>

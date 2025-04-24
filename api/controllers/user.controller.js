@@ -50,7 +50,7 @@ export const updateUser = async (req, res, next) => {
     }
 }
 
-
+  // I forget commit delete user handle fn and backend
 export const deleteUser = async (req, res, next) => {
 
     if (req.user.id !== req.params.userId) {
@@ -74,6 +74,7 @@ export const signoutUser = async (req, res, next) => {
     }
 }
 
+  // if u can code get posts u can code get users here;
 export const getUsers = async (req, res, next) => {
 
   try {
@@ -114,7 +115,7 @@ export const getUsers = async (req, res, next) => {
     next(error);
   }
 }
-
+// get every user for admin
 export const getUser = async (req, res, next) => {
     try {
       const user = await User.findById(req.params.userId);
