@@ -24,10 +24,28 @@ export const createComment = async (req, res, next) => {
 };
 
 export const getPostComments = async (req, res, next) => {
+    // try {
+    //   const comments = await Comment.find({ postId: req.params.postId }).sort({
+    //     createdAt: -1,
+    //   });
+    //   res.status(200).json(comments);
+    // } catch (error) {
+    //   next(error);
+    // }
+
     try {
-      const comments = await Comment.find({ postId: req.params.postId }).sort({
-        createdAt: -1,
-      });
+      const startIndex = parseInt(req.query.startIndex) || 0;
+      const comment = parseInt(req.query.comment) || 0;
+      const limit = parseInt(req.query.limit) || 5;
+      const skip = comment * limit;
+  
+      const comments = await Comment.find({ postId: req.params.postId })
+        .sort({ createdAt: -1 })
+        .skip(skip)
+        .limit(limit);
+  
+      console.log(comments);
+
       res.status(200).json(comments);
     } catch (error) {
       next(error);
@@ -103,12 +121,18 @@ export const getcomments = async (req, res, next) => {
     return next(errorHandler(403, 'You are not allowed to get all comments'));
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
-    const limit = parseInt(req.query.limit) || 9;
+    const comment = parseInt(req.query.comment) || 0;
+    const limit = parseInt(req.query.limit) || 5;
     const sortDirection = req.query.sort === 'desc' ? -1 : 1;
+    const skip = comment * limit;
+
     const comments = await Comment.find()
       .sort({ createdAt: sortDirection })
-      .skip(startIndex)
+      .skip(skip)
       .limit(limit);
+
+    console.log(comments);
+    
     const totalComments = await Comment.countDocuments();
     const now = new Date();
     const oneMonthAgo = new Date(

@@ -1,7 +1,8 @@
-import { Alert, Button, Textarea } from "flowbite-react";
+import { Alert, Button, Modal, ModalBody, ModalHeader, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom";
+import { HiOutlineExclamationCircle } from 'react-icons/hi';
 import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
@@ -10,6 +11,7 @@ const CommentSection = ({ postId }) => {
   const [comment, setComment] = useState('');
   const [commentError, setCommentError] = useState(null);
   const [comments, setComments] = useState([]);
+  const [showMore, setShowMore] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
@@ -49,9 +51,14 @@ const CommentSection = ({ postId }) => {
     const getComments = async () => {
       try {
         const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        const data = await res.json();
         if (res.ok) {
-          const data = await res.json();
-          setComments(data);
+          const comments = data;
+          setComments(comments);
+          console.log(comments);
+          if (data.length < 5) {
+            setShowMore(false);
+          }
         }
       } catch (error) {
         console.log(error.message);
@@ -59,6 +66,28 @@ const CommentSection = ({ postId }) => {
     };
     getComments();
   }, [postId]);
+
+  const handleShowMore = async () => {
+    
+    const comment = Math.floor(comments.length / 5);
+    const startIndex = comments.length;
+    console.log(comment);
+    try {
+      const res = await fetch(
+        `/api/comment/getPostComments/${postId}?comment=${comment}&limit=5`
+      );
+      const data = await res.json();
+      const comments = data;
+      if (res.ok) {
+        setComment((prev) => [...prev, ...comments]);
+        if (comments.length < 5) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
     
   const handleLike = async (commentId) => {
     try {
@@ -71,8 +100,7 @@ const CommentSection = ({ postId }) => {
       });
       if (res.ok) {
         const data = await res.json();
-        setComments(
-          comments.map((comment) =>
+        setComments( comments.map((comment) =>
             comment._id === commentId
               ? {
                   ...comment,
@@ -158,12 +186,12 @@ const CommentSection = ({ postId }) => {
             <p className='text-xs text-gray-500'>
               {200 - comment.length} characters remaining
             </p>
-            <Button outline gradientDuoTone='purpleToBlue' type='submit'>
+            <Button outline type='submit'>
               Submit
             </Button>
           </div>
           {commentError && (
-            <Alert color='failure' className='mt-5'>
+            <Alert color='red' className='mt-5'>
               {commentError}
             </Alert>
           )}
@@ -193,6 +221,41 @@ const CommentSection = ({ postId }) => {
           ))}
         </>
       )}
+      {showMore && (
+        <button
+          onClick={handleShowMore}
+          className="self-center w-full text-sm text-teal-500 py-7"
+        >
+          Show more
+        </button>
+        )}
+       <Modal
+        show={showModal}
+        onClose={() => setShowModal(false)}
+        popup
+        size='md'
+      >
+        <ModalHeader />
+        <ModalBody>
+          <div className='text-center'>
+            <HiOutlineExclamationCircle className='mx-auto mb-4 text-gray-400 h-14 w-14 dark:text-gray-200' />
+            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
+              Are you sure you want to delete this comment?
+            </h3>
+            <div className='flex justify-center gap-4'>
+              <Button
+                color='red'
+                onClick={() => handleDelete(commentToDelete)}
+              >
+                Yes, I'm sure
+              </Button>
+              <Button color='gray' onClick={() => setShowModal(false)}>
+                No, cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   )
 }

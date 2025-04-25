@@ -12,7 +12,7 @@ const CallToAction = () => {
         Check our course for beginner or medium
       </p>
       <a
-        href='https://www.100jsprojects.com/'
+        href='https://github.com/longnguyendo'
         target='_blank'
         rel='noopener noreferrer'
       >
