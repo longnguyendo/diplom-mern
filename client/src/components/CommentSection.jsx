@@ -15,6 +15,7 @@ const CommentSection = ({ postId }) => {
   const navigate = useNavigate();
   // console.log("cmt section", comment);
 
+  // submit comment
   const handleSubmit = async (e) => {
       e.preventDefault();
       if (comment.length > 200) {
@@ -43,6 +44,7 @@ const CommentSection = ({ postId }) => {
       }
   };
   
+  // effect to get comments from postId;
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -86,32 +88,34 @@ const CommentSection = ({ postId }) => {
     }
   };
   
-    //   const handleEdit = async (comment, editedContent) => {
-    //     setComments(
-    //       comments.map((c) =>
-    //         c._id === comment._id ? { ...c, content: editedContent } : c
-    //       )
-    //     );
-    //   };
-    
-    //   const handleDelete = async (commentId) => {
-    //     setShowModal(false);
-    //     try {
-    //       if (!currentUser) {
-    //         navigate('/sign-in');
-    //         return;
-    //       }
-    //       const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
-    //         method: 'DELETE',
-    //       });
-    //       if (res.ok) {
-    //         const data = await res.json();
-    //         setComments(comments.filter((comment) => comment._id !== commentId));
-    //       }
-    //     } catch (error) {
-    //       console.log(error.message);
-    //     }
-    //   };
+  // Click save and handle save of editing comment 
+  const handleEdit = async (comment, editedContent) => {
+    setComments(
+      comments.map((c) =>
+        c._id === comment._id ? { ...c, content: editedContent } : c
+      )
+    );
+  };
+
+  // Click delete then handle delete of comment
+  const handleDelete = async (commentId) => {
+    setShowModal(false);
+    try {
+      if (!currentUser) {
+        navigate('/sign-in');
+        return;
+      }
+      const res = await fetch(`/api/comment/deleteComment/${commentId}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setComments(comments.filter((comment) => comment._id !== commentId));
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
@@ -180,7 +184,7 @@ const CommentSection = ({ postId }) => {
               key={comment._id}
               comment={comment}
               onLike={handleLike}
-              // onEdit={handleEdit}
+              onEdit={handleEdit}
               onDelete={(commentId) => {
                 setShowModal(true);
                 setCommentToDelete(commentId);
