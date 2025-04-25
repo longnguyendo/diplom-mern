@@ -2,59 +2,62 @@ import { Alert, Button, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom";
+import Comment from "./Comment";
 
 const CommentSection = ({ postId }) => {
 
-    const { currentUser } = useSelector((state) => state.user);
-    const [comment, setComment] = useState('');
-    const [commentError, setCommentError] = useState(null);
-    const [comments, setComments] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [commentToDelete, setCommentToDelete] = useState(null);
-    const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+  const [comment, setComment] = useState('');
+  const [commentError, setCommentError] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+  const [commentToDelete, setCommentToDelete] = useState(null);
+  const navigate = useNavigate();
+  // console.log("cmt section", comment);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (comment.length > 200) {
-          return;
+  const handleSubmit = async (e) => {
+      e.preventDefault();
+      if (comment.length > 200) {
+        return;
+      }
+      try {
+        const res = await fetch('/api/comment/create', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            content: comment,
+            postId,
+            userId: currentUser._id,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          setComment('');
+          setCommentError(null);
+          setComments([data, ...comments]);
         }
-        try {
-          const res = await fetch('/api/comment/create', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              content: comment,
-              postId,
-              userId: currentUser._id,
-            }),
-          });
+      } catch (error) {
+        setCommentError(error.message);
+      }
+  };
+  
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const res = await fetch(`/api/comment/getPostComments/${postId}`);
+        if (res.ok) {
           const data = await res.json();
-          if (res.ok) {
-            setComment('');
-            setCommentError(null);
-            setComments([data, ...comments]);
-          }
-        } catch (error) {
-          setCommentError(error.message);
+          setComments(data);
         }
-      };
-    
-    //   useEffect(() => {
-    //     const getComments = async () => {
-    //       try {
-    //         const res = await fetch(`/api/comment/getPostComments/${postId}`);
-    //         if (res.ok) {
-    //           const data = await res.json();
-    //           setComments(data);
-    //         }
-    //       } catch (error) {
-    //         console.log(error.message);
-    //       }
-    //     };
-    //     getComments();
-    //   }, [postId]);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getComments();
+  }, [postId]);
+  // console.log("cmts", comments);
     
     //   const handleLike = async (commentId) => {
     //     try {
@@ -173,18 +176,18 @@ const CommentSection = ({ postId }) => {
               <p>{comments.length}</p>
             </div>
           </div>
-          {/* {comments.map((comment) => (
+          {comments.map((comment) => (
             <Comment
               key={comment._id}
               comment={comment}
-              onLike={handleLike}
-              onEdit={handleEdit}
+              // onLike={handleLike}
+              // onEdit={handleEdit}
               onDelete={(commentId) => {
                 setShowModal(true);
                 setCommentToDelete(commentId);
               }}
             />
-          ))} */}
+          ))}
         </>
       )}
     </div>
