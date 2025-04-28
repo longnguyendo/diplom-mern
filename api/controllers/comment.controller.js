@@ -36,15 +36,13 @@ export const getPostComments = async (req, res, next) => {
     try {
       const startIndex = parseInt(req.query.startIndex) || 0;
       const comment = parseInt(req.query.comment) || 0;
-      const limit = parseInt(req.query.limit) || 5;
+      const limit = parseInt(req.query.limit) || 100;
       const skip = comment * limit;
   
       const comments = await Comment.find({ postId: req.params.postId })
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(limit);
-  
-      console.log(comments);
 
       res.status(200).json(comments);
     } catch (error) {
@@ -122,7 +120,7 @@ export const getcomments = async (req, res, next) => {
   try {
     const startIndex = parseInt(req.query.startIndex) || 0;
     const comment = parseInt(req.query.comment) || 0;
-    const limit = parseInt(req.query.limit) || 5;
+    const limit = parseInt(req.query.limit) || 100;
     const sortDirection = req.query.sort === 'desc' ? -1 : 1;
     const skip = comment * limit;
 
@@ -130,8 +128,6 @@ export const getcomments = async (req, res, next) => {
       .sort({ createdAt: sortDirection })
       .skip(skip)
       .limit(limit);
-
-    console.log(comments);
     
     const totalComments = await Comment.countDocuments();
     const now = new Date();
