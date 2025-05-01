@@ -5,8 +5,10 @@ import userRoutes from './routes/user.route.js';
 import authRoutes from './routes/auth.route.js'; 
 import postRoutes from './routes/post.route.js'; 
 import commentRoutes from './routes/comment.route.js'; 
+import chatbotRoutes from './routes/chatbot.route.js';
 import imageRoutes from './routes/image.route.js';
 import cookieParser from 'cookie-parser';
+
 // import 
 
 dotenv.config();
@@ -33,6 +35,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/comment', commentRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 // app.use('/api/image', imageRoutes);
 
 app.use((err, req, res, next) => {

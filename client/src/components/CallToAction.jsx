@@ -6,10 +6,10 @@ const CallToAction = () => {
     <div className='flex flex-col items-center justify-center p-3 text-center border border-teal-500 rounded-tl-3xl rounded-br-3xl sm:flex-row'>
     <div className='flex flex-col justify-center flex-1'>
       <h2 className='text-2xl'>
-        You want to learn more HTML, CSS and Javascript by learning from scratch to advance?
+       Do you want to come my github to see my project or some basic function i wrote.
       </h2>
       <p className='my-2 text-gray-500'>
-        Check our course for beginner or medium
+        Check my github to see my project and basic functions in js
       </p>
       <a
         href='https://github.com/longnguyendo'
@@ -19,7 +19,7 @@ const CallToAction = () => {
         <Button
           className='w-full rounded-bl-none rounded-tl-xl rounded-br-xl'
         >
-          Check our course (Learn more)
+          Check my github bio
         </Button>
       </a>
     </div>
