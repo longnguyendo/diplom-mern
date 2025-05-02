@@ -8,7 +8,7 @@ export default defineConfig({
       '/api': {
         target: 'https://diplom-mern-blog.onrender.com',
         changeOrigin: true,
-        rewrite: (path) => { return path }
+        rewrite: (path) => { console.log(path); return path }
       }
     }
   },
