@@ -150,7 +150,6 @@ const ChatModal = () => {
             />
             <Button
               type="submit"
-              gradientDuoTone="purpleToBlue"
               className="ml-2"
               disabled={isLoading || !message.trim()}
             >
