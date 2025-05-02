@@ -15,6 +15,7 @@ const CommentSection = ({ postId }) => {
   const [showModal, setShowModal] = useState(false);
   const [commentToDelete, setCommentToDelete] = useState(null);
   const navigate = useNavigate();
+  const API = import.meta.env.VITE_API_BASE_URL;
   // console.log("cmt section", comment);
 
   // submit comment
@@ -24,7 +25,7 @@ const CommentSection = ({ postId }) => {
         return;
       }
       try {
-        const res = await fetch('/api/comment/create', {
+        const res = await fetch(`${API}/api/comment/create`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

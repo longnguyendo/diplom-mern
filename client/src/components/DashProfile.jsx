@@ -42,6 +42,8 @@ const DashProfile = () => {
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({});
 
+  const API = import.meta.env.VITE_API_BASE_URL;
+
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const handleImageChange = (e) => {
@@ -153,7 +155,7 @@ const DashProfile = () => {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await fetch(`${API}/api/user/signout`, {
         method: 'POST',
       });
       const data = await res.json();

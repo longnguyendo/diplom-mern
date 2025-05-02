@@ -10,12 +10,15 @@ const OAuth = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const auth = getAuth(app);
+
+    const API = import.meta.env.VITE_API_BASE_URL;
+
     const handleGoogleClick = async () => {
         const provider = new GoogleAuthProvider();
         provider.setCustomParameters({ prompt: 'select_account'})
         try {
             const resultsFromGoogle = await signInWithPopup(auth, provider)
-            const res = await fetch('/api/auth/google', {
+            const res = await fetch(`${API}/api/auth/google`, {
                 method: 'POST',
                 headers: { 'Content-Type':'application/json'},
                 body: JSON.stringify({

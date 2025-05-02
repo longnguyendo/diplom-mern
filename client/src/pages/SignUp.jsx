@@ -9,6 +9,8 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const API = import.meta.env.VITE_API_BASE_URL;
+
   const handleChange = (e) => {
     setFormData({... formData, [e.target.id]: e.target.value.trim() });
   };
@@ -22,7 +24,7 @@ const SignUp = () => {
     try {
       setIsLoading(true);
       setErrorMessage(null);
-      const res = await fetch('/api/auth/signup', {
+      const res = await fetch(`${API}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type':'application/json'},
         body: JSON.stringify(formData),     

@@ -30,6 +30,7 @@ const Header = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const API = import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -41,7 +42,7 @@ const Header = () => {
 
   const handleSignout = async () => {
     try {
-      const res = await fetch('/api/user/signout', {
+      const res = await fetch(`${API}/api/user/signout`, {
         method: 'POST',
       });
       const data = await res.json();
