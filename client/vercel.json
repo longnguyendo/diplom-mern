@@ -1,0 +1,12 @@
+{
+    "rewrites": [
+      {
+        "source": "/:path*",
+        "destination": "https://diplom-mern-blog.onrender.com/:path*"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
+    ]
+  }
