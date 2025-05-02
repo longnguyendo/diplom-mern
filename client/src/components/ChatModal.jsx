@@ -79,7 +79,6 @@ const ChatModal = () => {
       {/* Floating chat button */}
       { currentUser && <div className="fixed z-50 bottom-6 right-6">
         <Button
-          gradientDuoTone="purpleToBlue"
           pill
           onClick={() => setOpen(true)}
           className="p-3 rounded-full shadow-lg"

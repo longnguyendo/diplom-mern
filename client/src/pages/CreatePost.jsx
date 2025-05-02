@@ -14,51 +14,48 @@ import "react-circular-progressbar/dist/styles.css";
 
 const CreatePost = () => {
   const [file, setFile] = useState(null);
-  const [imageUploadProgress, setImageUploadProgress] = useState(null);
   const [imageUploadError, setImageUploadError] = useState(null);
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
-
-  console.log(formData);
+  
+  // console.log(formData);
 
   const navigate = useNavigate();
 
-  const handleUpdloadImage = async () => {
+  const handleUploadImage = async () => {
+
     try {
       if (!file) {
         setImageUploadError("Please select an image");
         return;
       }
+      // console.log(file);
       setImageUploadError(null);
-      const storage = getStorage(app);
-      const fileName = new Date().getTime() + "-" + file.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      uploadTask.on(
-        "state_changed",
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageUploadProgress(progress.toFixed(0));
-        },
-        (error) => {
-          setImageUploadError("Image upload failed");
-          setImageUploadProgress(null);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageUploadProgress(null);
-            setImageUploadError(null);
-            setFormData({ ...formData, image: downloadURL });
-          });
-        }
-      );
+  
+      const formDataUpload = new FormData();
+      formDataUpload.append("file", file);
+      formDataUpload.append("upload_preset", "diplom-mern-blog"); // Replace with actual preset
+  
+      const res = await fetch("https://api.cloudinary.com/v1_1/dmhnaimnl/image/upload", {
+        method: "POST",
+        body: formDataUpload,
+      });
+  
+      const data = await res.json();
+      // console.log(data);
+      if (data.secure_url) {
+        setFormData((prev) => ({ ...prev, image: data.secure_url }));
+
+        setImageUploadError(null);
+      } else {
+        throw new Error("Upload failed");
+      }
     } catch (error) {
+      console.error(error);
       setImageUploadError("Image upload failed");
-      setImageUploadProgress(null);
-      console.log(error);
     }
   };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -116,18 +113,7 @@ const CreatePost = () => {
             accept="image/*"
             onChange={(e) => setFile(e.target.files[0])}
           />
-          <Button type="button" size="sm" outline onClick={handleUpdloadImage}>
-            {imageUploadProgress ? (
-              <div className="w-16 h-16">
-                <CircularProgressbar
-                  value={imageUploadProgress}
-                  text={`${imageUploadProgress || 0}%`}
-                />
-              </div>
-            ) : (
-              "Upload image"
-            )}
-          </Button>
+          <Button type="button" size="sm" outline onClick={handleUploadImage}> Upload image </Button>
         </div>
         {imageUploadError && <Alert color="failure"> {imageUploadError}</Alert>}
         {formData.image && (
