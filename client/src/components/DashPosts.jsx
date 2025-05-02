@@ -49,9 +49,7 @@ const DashPosts = () => {
     const startIndex = userPosts.length;
     console.log(userPosts);
     try {
-      const res = await fetch(
-        `/api/post/getposts?userId=${currentUser._id}&page=${page}&limit=9`
-      );
+      const res = await fetch(`/api/post/getposts?userId=${currentUser._id}&page=${page}&limit=9`);
       const data = await res.json();
       console.log(data);
       if (res.ok) {
