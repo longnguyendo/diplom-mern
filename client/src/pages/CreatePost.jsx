@@ -31,12 +31,12 @@ const CreatePost = () => {
       }
       // console.log(file);
       setImageUploadError(null);
-  
+      
       const formDataUpload = new FormData();
       formDataUpload.append("file", file);
-      formDataUpload.append("upload_preset", "diplom-mern-blog"); // Replace with actual preset
+      formDataUpload.append("upload_preset", `${import.meta.env.VITE_CLOUDINARY_CLOUD_NAME}`); // Replace with actual preset
   
-      const res = await fetch("https://api.cloudinary.com/v1_1/dmhnaimnl/image/upload", {
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET}/image/upload`, {
         method: "POST",
         body: formDataUpload,
       });
