@@ -83,7 +83,7 @@ const ChatModal = () => {
           onClick={() => setOpen(true)}
           className="p-3 rounded-full shadow-lg"
         >
-          <HiOutlineChatAlt2 className="w-6 h-6" />
+          <HiOutlineChatAlt2 className="w-8 h-8" />
         </Button>
       </div>}
 
