@@ -14,7 +14,7 @@ export default function FooterCom() {
               <span className='px-2 py-1 mx-1 text-white rounded-lg bg-gradient-to-r from-indigo-500 to-blue-500 '>
                 Diplom
               </span>
-              Blog
+              -IT Blog
             </Link>
           </div>
           <div className='grid grid-cols-2 gap-8 mt-4 sm:grid-cols-3 sm:gap-6'>

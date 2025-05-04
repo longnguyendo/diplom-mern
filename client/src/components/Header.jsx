@@ -73,7 +73,7 @@ const Header = () => {
         <span className="px-2 py-1 text-white rounded-lg bg-gradient-to-r from-indigo-500 to-blue-500">
           Diplom
         </span>
-        Blog
+        -IT Blog
       </Link>
       <form onSubmit={handleSubmit}>
         <TextInput
