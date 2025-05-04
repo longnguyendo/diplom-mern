@@ -10,6 +10,7 @@ import "react-quill-new/dist/quill.snow.css";
 import { app } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import { CircularProgressbar } from "react-circular-progressbar";
+import { slugify } from 'transliteration';
 import "react-circular-progressbar/dist/styles.css";
 
 const CreatePost = () => {
@@ -18,7 +19,7 @@ const CreatePost = () => {
   const [formData, setFormData] = useState({});
   const [publishError, setPublishError] = useState(null);
   
-  // console.log(formData);
+  console.log('create post', formData);
 
   const navigate = useNavigate();
 
@@ -57,7 +58,9 @@ const CreatePost = () => {
   };
   
   const handleSubmit = async (e) => {
+
     e.preventDefault();
+    // console.log(formData);
     try {
       const res = await fetch("/api/post/create", {
         method: "POST",
@@ -92,9 +95,12 @@ const CreatePost = () => {
             required
             id="title"
             className="flex-1"
-            onChange={(e) =>
-              setFormData({ ...formData, title: e.target.value })
-            }
+            onChange={(e) => {
+              const title = e.target.value;
+              const generatedSlug = slugify(title);
+              console.log(title)
+              setFormData({ ...formData, title, slug: generatedSlug })
+            }}
           />
           <Select
             onChange={(e) =>
@@ -105,6 +111,9 @@ const CreatePost = () => {
             <option value="javascript">Javascript</option>
             <option value="reactjs">ReactJs</option>
             <option value="nextjs">NextJs</option>
+            <option value="technology">Technology</option>
+            <option value="software-engineer">Software Engineer</option>
+            <option value="computer-science">Computer Science</option>
           </Select>
         </div>
         <div className="flex items-center justify-between gap-4 p-3 border-4 border-teal-500 border-dotted">

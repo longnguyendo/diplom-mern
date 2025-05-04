@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import CallToAction from '../components/CallToAction';
 import { useEffect, useState } from 'react';
 import PostCard from '../components/PostCard';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const API = import.meta.env.VITE_API_BASE_URL;
+  const location = useLocation();
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -14,7 +14,7 @@ export default function Home() {
       setPosts(data.posts);
     };
     fetchPosts();
-  }, []);
+  }, [location]);
   return (
     <div>
       <div className='flex flex-col max-w-6xl gap-6 p-10 px-3 mx-auto '>
