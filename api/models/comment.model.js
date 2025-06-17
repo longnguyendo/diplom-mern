@@ -7,14 +7,8 @@ const commentSchema = new mongoose.Schema({
         type: String, 
         require: true,
     },
-    postId: {
-        type: String,
-        require: true,
-    },
-    userId: {
-        type: String, 
-        require: true,
-    },
+    postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     likes: {
         type: Array,
         default: [],
@@ -28,3 +22,4 @@ const commentSchema = new mongoose.Schema({
 const Comment = mongoose.model('Comment', commentSchema);
 
 export default Comment;
+

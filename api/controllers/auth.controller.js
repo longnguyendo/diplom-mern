@@ -6,26 +6,13 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
 
-  if (
-    !username ||
-    !email ||
-    !password ||
-    username === "" ||
-    email === "" ||
-    password === ""
-  ) {
+  if (!username ||!email || !password || username === "" || email === "" || password === "") {
     next(errorHandler(400, "All fields are required"));
   }
 
   const hashedPassword = bcryptjs.hashSync(password, 15);
-  // in es6 key familiar value => we use the same word
-  // no need to assign
-  const newUser = new User({
-    username,
-    email,
-    password: hashedPassword,
-  });
-  // try catch here
+  const newUser = new User({username, email, password: hashedPassword});
+
   try {
     await newUser.save();
     res.json("sign up successful");
@@ -84,14 +71,11 @@ export const google = async (req, res, next) => {
           })
           .json(rest);
       } else {
-        const generatedPassword =
-          Math.random().toString(36).slice(-8) +
-          Math.random().toString(36).slice(-8);
+        const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
         const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+        // because in db password cannot empt, what why we need generate newpass then hashed password
         const newUser = new User({
-          username:
-            name.toLowerCase().split(' ').join('') +
-            Math.random().toString(9).slice(-4),
+          username: name.toLowerCase().split(' ').join('') + Math.random().toString(9).slice(-4),
           email,
           password: hashedPassword,
           profilePicture: googlePhotoUrl,

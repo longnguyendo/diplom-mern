@@ -49,8 +49,6 @@ const ChatModal = () => {
       }, {
         headers: {
           'Content-Type': 'application/json',
-          // Add auth token if needed
-          // 'Authorization': `Bearer ${currentUser.token}`
         }
       });
 

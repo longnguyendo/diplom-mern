@@ -2,10 +2,7 @@ import mongoose from "mongoose";
 // import Image from "./image.model.js";
 
 const postSchema = new mongoose.Schema({
-    userId: {
-        type: String,
-        require: true,
-    },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     title: {
         type: String,
         require: true,
@@ -36,3 +33,4 @@ const postSchema = new mongoose.Schema({
 const Post = mongoose.model('Post', postSchema);
 
 export default Post;
+

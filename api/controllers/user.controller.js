@@ -50,7 +50,6 @@ export const updateUser = async (req, res, next) => {
     }
 }
 
-  // I forget commit delete user handle fn and backend
 export const deleteUser = async (req, res, next) => {
 
     if (req.user.id !== req.params.userId) {
@@ -94,9 +93,7 @@ export const getUsers = async (req, res, next) => {
     });
 
     const totalUsers = await User.countDocuments();
-
     const now = new Date();
-
     const oneMonthAgo = new Date(
       now.getFullYear(),
       now.getMonth() - 1,

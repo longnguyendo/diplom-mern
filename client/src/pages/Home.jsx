@@ -14,7 +14,7 @@ export default function Home() {
       setPosts(data.posts);
     };
     fetchPosts();
-  }, [location]);
+  }, []);
   return (
     <div>
       <div className='flex flex-col max-w-6xl gap-6 p-10 px-3 mx-auto '>

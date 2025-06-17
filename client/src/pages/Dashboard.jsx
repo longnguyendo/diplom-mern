@@ -14,7 +14,7 @@ const Dashboard = () => {
     const urlParams = new URLSearchParams(location.search);
     const tabFromURL = urlParams.get('tab');
     if (tabFromURL) {
-      setTab(tabFromURL)
+      setTab(tabFromURL) // tab = tabform url ;  
     }
   }, [location.search])
   return (
@@ -31,7 +31,7 @@ const Dashboard = () => {
 
       {tab ==='users' && <DashUsers />}
 
-      {tab ==='comments' && <DashComments />}
+      {tab ==='comments' && <DashComments/>}
 
       {tab ==='dash' && <DashboardComp />}
     </div>

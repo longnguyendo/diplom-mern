@@ -6,8 +6,6 @@ dotenv.config();
 
 export const getHistoryChat = async (req, res, next) => {
   try {
-    // Implement your MongoDB logic here to fetch chat history
-    // Example:
     const chats = await Chat.find({ userId: req.userId }).sort({
       createdAt: -1,
     });
@@ -27,54 +25,40 @@ export const postReplyChat = async (req, res, next) => {
   const { message } = req.body;
   const userId = req.user.id;
   console.log(message, userId);
-
   try {
     const { message } = req.body;
-
-    // Call DeepSeek API
     const response = await axios.post(
       "https://api.deepseek.com/v1/chat/completions",
       {
         model: "deepseek-chat", // or the specific model you're using
         messages: [
-          {
-            role: "user",
+          { role: "user",
             content: message,
           },
         ],
         temperature: 0.7,
-      },
-      {
+      }, {
         headers: {
           Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
           "Content-Type": "application/json",
         },
       }
     );
-
     const chat = await Chat.findOneAndUpdate(
       { user: userId },
-      {
-        $push: {
-          messages: {
+      { $push: { messages: {
             $each: [
               { content: message, role: "user" },
-              {
-                content: response.data.choices[0].message.content,
-                role: "assistant",
-              },
-            ],
-          },
+              { content: response.data.choices[0].message.content,
+                role: "assistant",  },
+            ], },
         },
       },
       { new: true, upsert: true }
     );
-
     await chat.save();
     console.log(chat);
-
-    res.json({
-      reply: response.data.choices[0].message.content,
+    res.json({ reply: response.data.choices[0].message.content,
     });
   } catch (error) {
     console.error("Error calling DeepSeek API:", error);

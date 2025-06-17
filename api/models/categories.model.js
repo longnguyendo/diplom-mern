@@ -1,22 +1,13 @@
 import mongoose from 'mongoose';
 
-const postSchema = new mongoose.Schema({
-  title: String,
-  content: String,
-  images: [{
-    url: String,
-    publicId: String
+const categoriesSchema = new mongoose.Schema({
+  postId: { type: mongoose.Schema.Types.ObjectId, ref: 'Post' },
+  categories: [{
+    category: String
   }],
-  author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+
 });
 
-const Post = mongoose.model('Post', postSchema);
+const Categories = mongoose.model('Categories', categoriesSchema);
 
-export default Post;
+export default Categories;
